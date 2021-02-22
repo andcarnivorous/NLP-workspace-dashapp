@@ -30,10 +30,12 @@ app.layout = html.Div([
     dbc.Jumbotron(
     [
         html.H1("Unsupervised Clustering of Vowels", className="display-3"),
-        html.P(
+        html.H2(
             "Insert your vowel's dataset and perform clustering",
             className="lead",
         )])]),
+
+    html.H5("Choose two different columns:"),
     html.Div([
         dcc.RadioItems(id="column1",
                        options=columns,
@@ -45,12 +47,14 @@ app.layout = html.Div([
                        value='F2',
                        labelStyle={'display': 'inline-block'})]),
 
+    html.H5("Choose a model:", style={"margin-top":50}),
             html.Div([
         dcc.RadioItems(id="model-type",
             options=models,
             value='DBSCAN',
             labelStyle={'display': 'inline-block'}),
     html.Div(id='output-params')]),
+    html.Hr(),html.Center(
     dcc.Upload(
         id='upload-data', max_size=5e+7,
         children=html.Div([
@@ -58,18 +62,19 @@ app.layout = html.Div([
             html.A('Select Files')
         ]),
         style={
-            'width': '100%',
+            'width': '33%',
             'height': '60px',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderStyle': 'dashed',
             'borderRadius': '5px',
             'textAlign': 'center',
-            'margin': '10px'
+            'margin': '10px',
+            "margin-top":50
         },
         # Allow multiple files to be uploaded
         multiple=True
-    ),
+    )),html.Center(html.P("Use column names F1, F2, F3, F4 in the files you want to process.")),
     html.Hr(),
     html.Div(dcc.Loading(id="output-data-upload")),
     html.Div(id='output-data-table')])
@@ -124,9 +129,12 @@ def update_output(list_of_contents, model_type, n_init, max_iter, n_clusters, ep
                 # Assume that the user uploaded a CSV file
                 df = pd.read_csv(
                     io.StringIO(decoded.decode('utf-8')))
-            elif 'xls' in content_type:
+            elif 'xls' in content_type or list_of_names and list_of_names[0].endswith("xls"):
                 # Assume that the user uploaded an excel file
                 df = pd.read_excel(io.BytesIO(decoded))
+            elif 'xlsx' in content_type or list_of_names and list_of_names[0].endswith("xlsx"):
+                # Assume that the user uploaded an excel file
+                df = pd.read_excel(io.BytesIO(decoded), engine="openpyxl")
             elif "text" in content_type:
                 df = pd.read_fwf(
                     io.StringIO(decoded.decode('utf-8')))

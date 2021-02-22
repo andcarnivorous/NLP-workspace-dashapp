@@ -26,6 +26,14 @@ class Modeller:
             except KeyError:
                 raise KeyError(f"Columns {columns} not present")
             return X
+
+        if all(col.lower() in self.dataframe.columns for col in columns):
+            try:
+                columns = [col.lower() for col in columns]
+                X = self.dataframe.loc[:, columns]
+            except KeyError:
+                raise KeyError(f"Columns {columns} not present")
+            return X
         else:
             raise KeyError(f"Columns {columns} are not present in dataframe")
 
