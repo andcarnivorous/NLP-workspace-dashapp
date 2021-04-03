@@ -4,7 +4,9 @@ ENV APP_HOME /app
 
 WORKDIR $APP_HOME
 
-RUN pip install Flask matplotlib gunicorn pandas plotly chart_studio scikit-learn dash dash-bootstrap-components xlrd openpyxl
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
 
 COPY . .
 
