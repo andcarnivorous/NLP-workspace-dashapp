@@ -1,10 +1,16 @@
+dash-gif-component
+nltk
 flask
 gunicorn
 pandas==1.2.2
 plotly==4.14.3
 chart_studio
 scikit-learn==0.24.1
-dash==1.19.0
+dash
 dash-bootstrap-components==0.11.3
 xlrd==2.0.1
 openpyxl==3.0.6
+gensim
+google-cloud-logging
+pydantic
+requests

@@ -1,10 +1,16 @@
+import logging
 from dataclasses import dataclass
 from time import time
 
-import plotly.express as px
+from models.plotting import Plotter
 from sklearn.cluster import AgglomerativeClustering, DBSCAN
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+
+FORMAT = "[%(levelname)s] %(name)s:%(lineno)d : %(message)s"
+logging.basicConfig(format=FORMAT)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 @dataclass
@@ -14,7 +20,7 @@ class Model:
     execution_time: float
 
 
-class Modeller(Model):
+class UnsupervisedModel(Model):
 
     models = {"KMeans": KMeans,
               "AgglomerativeClustering": AgglomerativeClustering,
@@ -80,5 +86,6 @@ class Modeller(Model):
         model.execution_time = timing
         self.dataframe[self.model_type] = model.labels_
         self.dataframe[self.model_type] = self.dataframe[self.model_type].astype("category")
-        fig = px.scatter(self.dataframe, x=columns[0], y=columns[1], color=self.model_type)  # TODO: Make dedicated method for this.
+        fig = Plotter(self.dataframe, columns[0], columns[1], color=self.model_type, kind="scatter").plot()
+        logger.info(f"Created clustering graph")
         return fig

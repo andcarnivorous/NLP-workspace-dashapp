@@ -1,0 +1,18 @@
+img {
+
+  width: 100%;
+
+}
+
+p {
+
+width: 66%;
+
+}
+
+img[alt*="loading"] {
+
+  width: 50%;
+
+}
+

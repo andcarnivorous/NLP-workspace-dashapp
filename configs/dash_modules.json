@@ -1,0 +1,6 @@
+{"chi_squared": "/chi_squared/",
+"home":  "/",
+"text_classification":  "/text_classification/",
+"vowel_clustering":  "/vowel/",
+"word_frequency":  "/word_freq/"
+}
